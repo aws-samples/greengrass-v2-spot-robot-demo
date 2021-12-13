@@ -1,0 +1,14 @@
+---
+RecipeFormatVersion: "2020-01-25"
+ComponentName: "$component_name"
+ComponentVersion: "$component_version_number"
+ComponentDescription: Boilerplate model component for SageMaker Edge Manager.
+ComponentPublisher: Amazon Web Services, Inc.
+Manifests:
+  - Platform:
+      os: linux
+    Lifecycle:
+      Install: |-
+        tar xf {artifacts:path}/$packaged_model_filename
+    Artifacts:
+      - URI: $packaged_model_uri

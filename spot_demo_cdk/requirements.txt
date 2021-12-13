@@ -1,0 +1,11 @@
+-e .
+aws-cdk.aws-cloudformation~=1.126.0
+aws_cdk.aws_codecommit==1.126.0
+aws-cdk.aws-s3-assets==1.126.0
+aws-cdk.aws_codebuild==1.126.0
+aws-cdk.aws_codepipeline==1.126.0
+aws-cdk.aws_codepipeline_actions==1.126.0
+aws_solutions_constructs.aws_iot_lambda==1.126.0
+mxnet==1.8.0.post0
+gluoncv==0.10.4.post4
+boto3==1.19.1

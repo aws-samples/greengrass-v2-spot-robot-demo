@@ -1,0 +1,26 @@
+version: 0.2
+
+env:
+  variables:
+    DEV: dev
+    DEV_IOT_THING_GROUP: ggv2_dev_group
+    MODEL_FILENAME: ssd_512_mobilenet1.0_voc.tar.gz
+
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      - apt-get update -y
+      - python -m pip install -U pip
+      - pip install boto3 --upgrade
+    finally:
+      - echo Exiting the install phase.
+  build:
+    commands:
+      - echo Entered the build phase...
+      - echo Build started on `date`
+      -
+      - python build_model_component_version.py -d $COMPONENT_DIRECTORY -c $COMPONENT_NAME -b $BUCKET_NAME -m $MODEL_URI -r $ROLE_ARN -g $USE_GPU -v s3_path=$S3_PATH
+    finally:
+      - echo Exiting the build phase.

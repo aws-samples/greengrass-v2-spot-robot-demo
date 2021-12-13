@@ -1,0 +1,40 @@
+---
+RecipeFormatVersion: 2020-01-25
+ComponentName: "$component_name"
+ComponentVersion: "$component_version_number"
+ComponentDescription: |
+  Demonstrates how to query the robot state service and publish the current robot state, and the robot metrics.
+ComponentPublisher: Amazon Web Services, Inc.
+ComponentDependencies:
+  aws.greengrass.SecretManager:
+    VersionRequirement: ">=2.0.9"
+ComponentConfiguration:
+  DefaultConfiguration:
+    accessControl:
+      aws.greengrass.ipc.mqttproxy:
+        "$component_name:pub:1":
+          policyDescription: Allows access to publish to IoT Core topic(s).
+          operations:
+            - "aws.greengrass#PublishToIoTCore"
+          resources:
+            - "*"
+      aws.greengrass.SecretManager:
+        "$component_name:secrets:1":
+          policyDescription: Allows access to Secret Manager values
+          operations:
+            - "aws.greengrass#GetSecretValue"
+          resources:
+            - "*"
+Manifests:
+  - Platform:
+      os: linux
+    Lifecycle:
+      Run:
+        RequiresPrivilege: true
+        Setenv:
+          PYTHONPATH: "{artifacts:decompressedPath}/$component_name/artifacts"
+        Script: |
+          python3 {artifacts:decompressedPath}/$component_name/artifacts/app.py
+    Artifacts:
+      - URI: $s3_path/$component_name/$component_version_number/$artifacts_zip_file_name.zip
+        Unarchive: ZIP
