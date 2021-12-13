@@ -4,7 +4,7 @@ SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
 Licensed under the Amazon Software License  http://aws.amazon.com/asl/
 -->
 
-# boston-dynamics-spot-aws-demo
+# greengrass-v2-spot-robot-demo
 
 ## What is it?
 
