@@ -1,0 +1,51 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:CompleteLayerUpload",
+                "ecr:CreateRepository",
+                "ecr:DescribeRepositories",
+                "ecr:GetAuthorizationToken",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart",
+                "greengrass:*",
+                "greengrass:CreateDeployment",
+                "iam:AttachRolePolicy",
+                "iam:CreatePolicy",
+                "iam:GetPolicy",
+                "iam:CreateRole",
+                "iam:GetRole",
+                "iam:PassRole",
+                "iot:AddThingToThingGroup",
+                "iot:AttachPolicy",
+                "iot:AttachThingPrincipal",
+                "iot:CancelJob",
+                "iot:CreateJob",
+                "iot:CreateKeysAndCertificate",
+                "iot:CreatePolicy",
+                "iot:CreateRoleAlias",
+                "iot:CreateThing",
+                "iot:CreateThingGroup",
+                "iot:DeleteThingShadow",
+                "iot:DescribeEndpoint",
+                "iot:DescribeJob",
+                "iot:DescribeRoleAlias",
+                "iot:DescribeThing",
+                "iot:DescribeThingGroup",
+                "iot:GetPolicy",
+                "iot:GetThingShadow",
+                "iot:UpdateJob",
+                "iot:UpdateThingShadow",
+                "s3:CreateBucket",
+                "s3:PutObject",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:PutSecretValue"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
