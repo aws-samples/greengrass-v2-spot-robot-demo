@@ -45,9 +45,9 @@ Ensure you have AWS CLI installed, a IAM user with an access key, and a named pr
 * [Named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
 * [Minimum IAM policy required for deploying solution](minimum_ggv2_iam_policy.json)
 
-### AWS CDK setup
+### AWS CDK v1 setup
 
-* [Install the AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install)
+* [Install the AWS CDK v1](https://docs.aws.amazon.com/cdk/v1/guide/getting_started.html#getting_started_install)
 
 ## Deploy supporting resources for Spot with CDK
 
