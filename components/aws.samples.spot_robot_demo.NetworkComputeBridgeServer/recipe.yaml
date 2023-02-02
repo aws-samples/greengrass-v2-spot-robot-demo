@@ -1,0 +1,21 @@
+---
+RecipeFormatVersion: "2020-01-25"
+ComponentName: "{COMPONENT_NAME}"
+ComponentVersion: "{COMPONENT_VERSION}"
+ComponentDescription: "Demonstrates a network compute server for Spot robot packaged in a Greengrass v2 component using a sample AutoGluon model."
+ComponentPublisher: "{COMPONENT_AUTHOR}"
+Manifests:
+  - Platform:
+      os: all
+    Artifacts:
+      - URI: s3://BUCKET_NAME/COMPONENT_NAME/COMPONENT_VERSION/aws.samples.spot_robot_demo.NetworkComputeBridgeServer.zip
+        Unarchive: ZIP
+    Lifecycle:
+      Install:
+        Script: |
+          curl https://greengrass-v2-spot-robot-demo-us-west-2.s3.us-west-2.amazonaws.com/models/valve_classifier.ag -o /models/valve_classifer.ag
+      Run:
+        Setenv:
+          PYTHONPATH: "{artifacts:decompressedPath}/aws.samples.spot_robot_demo.NetworkComputeBridgeServer"
+        Script: |
+          python3 -u {artifacts:decompressedPath}/aws.samples.spot_robot_demo.NetworkComputeBridgeServer/compute_server.py -d /models 192.168.50.3

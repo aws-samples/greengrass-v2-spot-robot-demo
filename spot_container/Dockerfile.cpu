@@ -1,0 +1,62 @@
+FROM ubuntu:18.04
+
+ARG SPOT_SDK_VERSION
+
+# Set time zone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ="America/Chicago"
+RUN apt update && apt install tzdata -y
+
+# Set up Greengrass v2 execution parameters
+ENV GGC_ROOT_PATH=/greengrass/v2
+RUN env
+
+# Install Greengrass version 2 and dependencies
+RUN apt update && apt-get update \
+    && apt-get install -y openjdk-8-jdk \
+    && apt-get -y install nano wget curl unzip nginx \
+    && apt-get -y install python3.7 python3-pip \
+    && apt-get install -y git build-essential cmake python3-dev libpython3.7-dev \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1 \
+    && update-alternatives --install /usr/bin/python python /usr/bin/python3 10 \
+    && curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip
+
+RUN mkdir -p /opt/greengrassv2 /greengrass/v2 && unzip greengrass-nucleus-latest.zip -d /opt/greengrassv2 && rm greengrass-nucleus-latest.zip
+
+# Install AWS IoT SDK v2
+RUN pip3 install awsiotsdk
+
+# Install spot-sdk
+COPY install-spot-sdk.sh /
+RUN chmod +x /install-spot-sdk.sh && ./install-spot-sdk.sh $SPOT_SDK_VERSION
+
+# Expose port to subscribe to MQTT messages, network port
+EXPOSE 8883
+
+# Entrypoint script to install and run Greengrass
+COPY "greengrass-entrypoint.sh" /
+RUN chmod +x /greengrass-entrypoint.sh
+
+RUN pip3 install autogluon==0.3.0
+
+RUN mkdir -p /models
+COPY "predictor.ag" /models
+
+RUN mkdir -p /images
+COPY "uploaded.jpg" /images
+
+# > 3.20 not working with SpotCAM WebRTC examples?
+RUN pip3 install protobuf==3.19.4
+
+# Build and install OpenCV with Python bindings
+COPY install-opencv.sh /
+RUN chmod +x /install-opencv.sh && ./install-opencv.sh
+
+# Build Kinesis Video Streams WebRTC sample applications
+COPY install-kvs-webrtc-c.sh shmsrc.patch /
+RUN chmod +x /install-kvs-webrtc-c.sh && ./install-kvs-webrtc-c.sh
+
+# Add shmsink publisher to get_image directory
+COPY publish_shmsink.py /spot-sdk/python/examples/get_image
+
+RUN pip3 install flask

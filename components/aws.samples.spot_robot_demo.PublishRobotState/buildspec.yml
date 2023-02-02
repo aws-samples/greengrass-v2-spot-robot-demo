@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      - apt-get update -y
+      - python -m pip install -U pip
+      - python3 -m pip install -U -r ./requirements-dev.txt
+      - cd components/$COMPONENT_NAME
+      - pip install -r ./requirements.txt -t .
+    finally:
+      - echo Exiting the install phase.
+  build:
+    commands:
+      - echo Entered the build phase...
+      - echo Build started on `date`
+      - gdk component build
+      - gdk component publish --bucket $S3_BUCKET_NAME
+    finally:
+      - echo Exiting the build phase.

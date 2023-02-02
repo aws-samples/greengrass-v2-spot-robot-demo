@@ -1,0 +1,22 @@
+---
+RecipeFormatVersion: "2020-01-25"
+ComponentName: "{COMPONENT_NAME}"
+ComponentVersion: "{COMPONENT_VERSION}"
+ComponentDescription: "Demonstrates how to stream to Kinesis Video Streams with WebRTC from SpotCAM PTZ."
+ComponentPublisher: "{COMPONENT_AUTHOR}"
+Manifests:
+  - Platform:
+      os: linux
+    Artifacts:
+      - URI: "s3://BUCKET_NAME/COMPONENT_NAME/COMPONENT_VERSION/aws.samples.spot_robot_demo.KVSWebRTCPublisher.zip"
+        Unarchive: ZIP
+    Lifecycle:
+      Run:
+        Setenv:
+          PYTHONPATH: "{artifacts:decompressedPath}/aws.samples.spot_robot_demo.KVSWebRTCPublisher"
+          AWS_IOT_CORE_CREDENTIAL_ENDPOINT: "clluwt2mzut66.credentials.iot.us-west-2.amazonaws.com"
+          AWS_IOT_CORE_CERT: "/greengrass/v2/thingCert.crt"
+          AWS_IOT_CORE_PRIVATE_KEY: "/greengrass/v2/privKey.key"
+          AWS_IOT_CORE_ROLE_ALIAS: "GreengrassV2TokenExchangeRoleAlias"
+        Script: |
+          rm -f /tmp/visible* && python3 -u {artifacts:decompressedPath}/aws.samples.spot_robot_demo.KVSWebRTCPublisher/app.py 192.168.50.3 --image-service spot-cam-image --image-sources ptz

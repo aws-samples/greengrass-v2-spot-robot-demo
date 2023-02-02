@@ -1,0 +1,16 @@
+{
+  "component": {
+    "aws.samples.spot_robot_demo.NetworkComputeBridgePlugin": {
+      "author": "Amazon Web Services, Inc.",
+      "version": "NEXT_PATCH",
+      "build": {
+        "build_system": "zip"
+      },
+      "publish": {
+        "bucket": "<PLACEHOLDER_BUCKET>",
+        "region": "us-west-2"
+      }
+    }
+  },
+  "gdk_version": "1.1.0"
+}

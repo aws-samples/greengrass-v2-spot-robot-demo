@@ -1,0 +1,18 @@
+---
+RecipeFormatVersion: "2020-01-25"
+ComponentName: "{COMPONENT_NAME}"
+ComponentVersion: "{COMPONENT_VERSION}"
+ComponentDescription: "Demonstrates a network compute plugin for Spot robot packaged in a Greengrass v2 component."
+ComponentPublisher: "{COMPONENT_AUTHOR}"
+Manifests:
+  - Platform:
+      os: linux
+    Artifacts:
+      - URI: "s3://BUCKET_NAME/COMPONENT_NAME/COMPONENT_VERSION/aws.samples.spot_robot_demo.NetworkComputeBridgePlugin.zip"
+        Unarchive: ZIP
+    Lifecycle:
+      Run:
+        Setenv:
+          PYTHONPATH: "{artifacts:decompressedPath}/aws.samples.spot_robot_demo.NetworkComputeBridgePlugin"
+        Script: |
+          python3 -u {artifacts:decompressedPath}/aws.samples.spot_robot_demo.NetworkComputeBridgePlugin/app.py --on-spot-core --port 50057 --worker-name ncb-server 192.168.50.3
